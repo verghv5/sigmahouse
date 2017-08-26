@@ -2,7 +2,7 @@
  * Main Display Page
  */
 
-exports.index = function(req, res) {
+module.exports = function(req, res) {
     var issues;
     $.ajax({
         'url': '/issues',
@@ -15,3 +15,4 @@ exports.index = function(req, res) {
     res.locals.session = req.session;
     res.render('splash', issues);
 };
+
