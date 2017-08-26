@@ -1,4 +1,4 @@
-package sigmahouse
+package main
 
 import (
 	"database/sql"
@@ -14,11 +14,12 @@ type issue struct {
 	Title string `json:"title"`
 	Description string `json:"description"`
 	Priority string `json:"priority"`
-	Date string `json:"date"`
+	ReportDate string `json:"reportdate"`
 }
 
 func (i *issue) getIssue(db *sql.DB) error {
-	return errors.New("Not implemented")
+	return db.QueryRow("SELECT title, description FROM sigmahouse WHERE id=$1",
+		i.ID).Scan(&i.Title, &i.Description, &i.Priority, &i.ReportDate)
 }
 
 func (i *issue) updateIssue(db *sql.DB) error {
@@ -30,11 +31,18 @@ func (i *issue) deleteIssue(db *sql.DB) error {
 }
 
 func (i *issue) createIssue(db *sql.DB) error {
-	return errors.New("Not implemented")
+	err := db.QueryRow(
+		"INSERT INTO issues(title, description, priority, reportdate) VALUES($1, $2, $3, $4) RETURNING id",
+		i.Title, i.Description, i.Priority, i.ReportDate).Scan(&i.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-
-func getIssues(db *sql.DB, start, count int) ([]issue, error) {
-	return nil, errors.New("Not implemented")
-}
+//func getIssues(db *sql.DB, start, count int) ([]issue, error) {
+//	return nil, errors.New("Not implemented")
+//}
 

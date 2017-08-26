@@ -1,4 +1,4 @@
-package sigmahouse
+package main
 
 import "os"
 
