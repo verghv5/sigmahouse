@@ -10,7 +10,11 @@ var express = require('express'),
     routes = require('./routes'),
     http = require('http'),
     store = new express.session.MemoryStore,
-    path = require('path');
+    path = require('path'),
+    hoffman = require('hoffman'),
+    requirejs = require('requirejs');
+
+const bcrypt = require('bcryptjs');
 
 var app = express();
 
@@ -29,6 +33,8 @@ app.configure(function() {
     app.set('port', process.env.PORT || 8080);
     app.set('views', __dirname + '/views');
     app.set('view engine', template_engine);
+    app.set('view cache', true);
+    app.engine('dust', hoffman.__express());
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
@@ -41,7 +47,13 @@ app.configure(function() {
     app.use(express.session());
     app.use(app.router);
     app.use(require('less-middleware')(__dirname + '/public'));
+    app.use(express.static('public'));
+ 
     app.use(express.static(path.join(__dirname, 'public')));
+
+    hoffman.prime(app.settings.views, function(err) {
+        // views are loaded
+    });
 
     //middleware
     app.use(function(req, res, next) {
@@ -62,7 +74,9 @@ app.configure('development', function() {
 
 app.locals.inspect = require('util').inspect;
 app.get('/', routes.index);
+//app.get('/splash', routes.splash);
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log("Express server listening on port " + app.get('port'));
 });
+
