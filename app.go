@@ -68,6 +68,32 @@ func (a *App) getIssue(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, i)
 }
 
+
+func (a *App) updateIssue(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid product ID")
+		return
+	}
+
+	var i issue
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&i); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid resquest payload")
+		return
+	}
+	defer r.Body.Close()
+	i.ID = id
+
+	if err := i.updateIssue(a.DB); err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, i)
+}
+
 func (a *App) createIssue(w http.ResponseWriter, r *http.Request) {
 	var i issue
 	decoder := json.NewDecoder(r.Body)
@@ -85,7 +111,37 @@ func (a *App) createIssue(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusCreated, i)
 }
 
+func (a *App) deleteIssue(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid Product ID")
+		return
+	}
+
+	i := issue{ID: id}
+	if err := i.deleteIssue(a.DB); err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
+}
+
+func (a *App) getIssues(w http.ResponseWriter, r *http.Request) {
+	issues, err := getIssues(a.DB)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, issues)
+}
+
 func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/issue/{id:[0-9]+}", a.getIssue).Methods("GET")
 	a.Router.HandleFunc("/issue", a.createIssue).Methods("POST")
+	a.Router.HandleFunc("/issue/{id:[0-9]+}", a.updateIssue).Methods("PUT")
+	a.Router.HandleFunc("/issue/{id:[0-9]+}", a.deleteIssue).Methods("DELETE")
+	a.Router.HandleFunc("/issues", a.getIssues).Methods("GET")
 }
