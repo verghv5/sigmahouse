@@ -1,9 +1,0 @@
-{#login}
-  Success
-  {:usernameError}
-  Your username was not found
-  {:passwordError}
-  Your password was incorrect 
-  {:else}
-  Please enter a username/password
-{/login}
