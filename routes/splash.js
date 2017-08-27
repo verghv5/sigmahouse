@@ -15,3 +15,4 @@ module.exports = function(req, res) {
     res.locals.session = req.session;
     res.render('splash', issues);
 };
+
