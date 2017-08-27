@@ -212,7 +212,7 @@ func (a *App) performRegister(w http.ResponseWriter, req *http.Request){
 	// User input credentials
 	email := req.FormValue("email")
 	name := req.FormValue("name")
-	password := req.FormValue("pass")
+	password := req.FormValue("password")
 
 	stmt, err := a.DB.Prepare(`UPDATE users SET name=$1, password=$2, hasEnabledAccount=true, isadmin=false WHERE email=$3`)
 
