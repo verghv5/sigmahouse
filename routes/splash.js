@@ -4,15 +4,18 @@
 
 module.exports = function(req, res) {
     var issues;
-    $.ajax({
-        'url': '/issues',
-        'type': 'GET',
-        'success': function(data) {
-            issues = data;
+
+    var request = require('request');
+    request.get('http://localhost:8000/issues', function(error, response, body) {
+        if (error || response.statusCode != 200) {
+            console.log('wtf');
+            return;
         }
+        issues = body;
+
+        var template_engine = req.app.settings.template_engine;
+        res.locals.session = req.session;
+        res.render('splash', {sigmaIssues: issues});
     });
-    var template_engine = req.app.settings.template_engine;
-    res.locals.session = req.session;
-    res.render('splash', issues);
 };
 

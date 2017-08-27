@@ -47,7 +47,7 @@ func (i *issue) createIssue(db *sql.DB) error {
 	return nil
 }
 
-func getIssues(db *sql.DB) ([]issue, error) {
+func getIssues(db *sql.DB) (map[string][]issue, error) {
 	rows, err := db.Query("SELECT id, title, description, priority, reportdate FROM issues ORDER BY priority ASC, reportdate DESC LIMIT 50")
 
 	if err != nil {
@@ -66,6 +66,8 @@ func getIssues(db *sql.DB) ([]issue, error) {
 		issues = append(issues, i)
 	}
 
-	return issues, nil
+	jsonObj := map[string][]issue{"sigmaIssues": issues}
+
+	return jsonObj, nil
 }
 

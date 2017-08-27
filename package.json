@@ -1,18 +1,23 @@
 {
-  "name": "express-template-demo",
+  "name": "SigmaHouse",
   "version": "0.0.1-1",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.x",
-    "dustjs-linkedin": "*",
-    "dustjs-helpers": "*",
     "consolidate": "*",
+    "dustjs-helpers": "*",
+    "dustjs-linkedin": "*",
     "ejs": "*",
     "ejs-locals": "*",
+    "express": "3.x",
+    "hoffman": "^0.2.2",
+    "http": "0.0.0",
+    "jquery": "^3.2.1",
     "less-middleware": "*",
+    "request": "^2.81.0",
+    "requirejs": "^2.3.5",
     "swig": "~0.12.1"
   },
   "subdomain": "utuxia.demo",
