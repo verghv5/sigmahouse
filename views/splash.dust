@@ -1,20 +1,37 @@
 <head>
-<<<<<<< HEAD
     <link rel="stylesheet" href="uikit.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="uikit.min.js"></script>
     <script src="uikit-icons.min.js"></script>
 </head>
 <body>
-    <h1>fuck</h1>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#">Parent</a>
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li class="uk-active"><a href="#">Active</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="uk-active"><a href="#"><span uk-icon="icon: plus"></span>Submit New Issue</a></li>
+            </ul>
+        </div>
+        <a href="#my-id" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+    </nav>
+    <div class="uk-grid">
+        <div class="uk-width-1-2">...</div>
+        <div class="uk-width-1-2">...</div>
+    </div>
+    <div id="my-id" class="uk-offcanvas">
+        ...
+    </div>
+    {!{#sigmaIssues}!}
+        {!{.}!}
+        {!{id}!}
+    {!{/sigmaIssues}!}
 </body>
-=======
-    <link rel="stylesheet" href="../css/uikit.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../js/uikit.min.js"></script>
-    <script src="../js/uikit-icons.min.js"></script>
-</head>
-<body>
-    <h1>fuck</h1>
-</body>
->>>>>>> 3160f4f8acd5dbfc1e8920d548044357b2fc70b0
